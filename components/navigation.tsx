@@ -85,6 +85,7 @@ export function Navigation() {
             
           <ThemeToggle/>
               test
+              test2
           </div>
 
           {/* Mobile menu */}
