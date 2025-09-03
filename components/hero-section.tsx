@@ -58,7 +58,7 @@ export function HeroSection() {
 
           {/* Hero Visual */}
           <div className="relative">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-4 ">
               <Card className="bg-card/50 backdrop-blur border-border/50">
                 <CardContent className="p-6 space-y-3">
                   <Database className="h-8 w-8 text-primary" />
@@ -75,7 +75,7 @@ export function HeroSection() {
                 </CardContent>
               </Card>
 
-              <Card className="bg-card/50 backdrop-blur border-border/50 -mt-4">
+              <Card className="bg-card/50 backdrop-blur border-border/50 -mt-1">
                 <CardContent className="p-6 space-y-3">
                   <Cpu className="h-8 w-8 text-primary" />
                   <h3 className="font-semibold text-card-foreground">IT Infrastructure</h3>
