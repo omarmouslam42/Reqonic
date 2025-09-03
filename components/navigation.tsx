@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Menu, Globe } from "lucide-react"
 import { cn } from "@/lib/utils"
+import ThemeToggle from "./ui/themesToggle"
 
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false)
@@ -81,6 +82,9 @@ export function Navigation() {
             <Button size="sm" asChild>
               <Link href="/contact">{language === "en" ? "Get Started" : "ابدأ الآن"}</Link>
             </Button>
+            
+          <ThemeToggle/>
+
           </div>
 
           {/* Mobile menu */}
