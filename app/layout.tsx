@@ -5,8 +5,9 @@ import { GeistMono } from "geist/font/mono";
 import { Analytics } from "@vercel/analytics/next";
 import { Suspense } from "react";
 import "./globals.css";
-import ThemeToggle from './../components/ui/themesToggle';
+import ThemeToggle from "./../components/ui/themesToggle";
 import { ThemeProvider } from "@/components/theme-provider";
+import { LanguageProvider } from "@/context/LanguageContext";
 
 export const metadata: Metadata = {
   title: "Reqonic - Technology & IT Solutions",
@@ -25,14 +26,16 @@ export default function RootLayout({
       <body
         className={`${GeistSans.variable} ${GeistMono.variable} font-sans bg-background text-foreground antialiased`}
       >
-         <ThemeProvider
+        <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-        <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
-        <Analytics />
+          <LanguageProvider>
+            <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+          </LanguageProvider>
+          <Analytics />
         </ThemeProvider>
       </body>
     </html>
