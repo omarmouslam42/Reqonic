@@ -72,11 +72,11 @@ export function Navigation() {
               <Globe className="h-4 w-4" />
               <span>{language === "en" ? "العربية" : "English"}</span>
             </Button>
-            <Button size="sm" asChild>
+            {/* <Button size="sm" asChild>
               <Link href="/contact">
                 {language === "en" ? "Get Started" : "ابدأ الآن"}
               </Link>
-            </Button>
+            </Button> */}
 
             <ThemeToggle />
           </div>
@@ -131,11 +131,11 @@ export function Navigation() {
                       <Globe className="h-4 w-4" />
                       <span>{language === "en" ? "العربية" : "English"}</span>
                     </Button>
-                    <Button asChild className="">
+                    {/* <Button asChild className="">
                       <Link href="/contact" onClick={() => setIsOpen(false)}>
                         {language === "en" ? "Get Started" : "ابدأ الآن"}
                       </Link>
-                    </Button>
+                    </Button> */}
                     <div>
                       <ThemeToggle />
                     </div>

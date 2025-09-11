@@ -37,6 +37,7 @@ import {
   Settings,
 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
+import { Footer } from "@/components/footer";
 
 export default function ServicesPage() {
   const { language } = useLanguage();
@@ -343,8 +344,6 @@ export default function ServicesPage() {
     },
   ];
 
-  
-
   return (
     <div
       className="min-h-screen bg-background"
@@ -352,7 +351,7 @@ export default function ServicesPage() {
     >
       {/* Enhanced Header Section */}
       <Navigation />
-      <section className="relative py-24 bg-gradient-to-br from-primary/10 via-secondary/5 to-accent/10 overflow-hidden">
+      <section className="relative py-16 bg-gradient-to-br from-primary/10 via-secondary/5 to-accent/10 overflow-hidden">
         {/* Background Pattern */}
         <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:50px_50px]" />
         <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
@@ -382,11 +381,11 @@ export default function ServicesPage() {
             </p>
 
             <div className="flex justify-center mb-8">
-              <div className="bg-background/60 backdrop-blur-sm p-2 rounded-xl border border-primary/10 shadow-lg">
+              <div className="bg-background/60 backdrop-blur-sm p-2 space-x-2 rounded-xl border border-primary/10 shadow-lg">
                 <Button
                   variant={activeTab === "individual" ? "default" : "ghost"}
                   onClick={() => setActiveTab("individual")}
-                  className="px-8 py-3 text-base font-medium transition-all duration-300"
+                  className="px-8 py-3 text-base font-medium transition-all duration-300 cursor-pointer"
                   size="lg"
                 >
                   <Users className="mr-2 h-5 w-5" />
@@ -395,7 +394,7 @@ export default function ServicesPage() {
                 <Button
                   variant={activeTab === "corporate" ? "default" : "ghost"}
                   onClick={() => setActiveTab("corporate")}
-                  className="px-8 py-3 text-base font-medium transition-all duration-300"
+                  className="px-8 py-3 text-base font-medium transition-all duration-300 cursor-pointer"
                   size="lg"
                 >
                   <Building2 className="mr-2 h-5 w-5" />
@@ -616,27 +615,32 @@ export default function ServicesPage() {
           </section>
 
           {/* Contact Section */}
-          <section className="py-20">
+          {/* <section className="py-20 bg-background">
             <div className="container mx-auto px-4">
-              <div className="max-w-4xl mx-auto">
-                <div className="text-center mb-12">
+              <div className="max-w-4xl mx-auto"> */}
+                {/* Section Header */}
+                {/* <div className="text-center mb-12">
                   <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
                     {content[language].contactTitle}
                   </h2>
-                  <p className="text-lg text-muted-foreground">
+                  <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
                     {content[language].contactSubtitle}
                   </p>
-                </div>
+                </div> */}
 
-                <Card className="max-w-2xl mx-auto">
+                {/* Contact Card */}
+                {/* <Card className="max-w-2xl mx-auto shadow-lg border rounded-2xl">
                   <CardContent className="p-8">
                     <form className="space-y-6">
-                      <div className="grid md:grid-cols-2 gap-4">
+                      <div className="grid md:grid-cols-2 gap-6">
                         <div>
                           <label className="block text-sm font-medium text-foreground mb-2">
                             {content[language].name}
                           </label>
-                          <Input placeholder={content[language].name} />
+                          <Input
+                            placeholder={content[language].name}
+                            className="h-12 text-base"
+                          />
                         </div>
                         <div>
                           <label className="block text-sm font-medium text-foreground mb-2">
@@ -645,9 +649,11 @@ export default function ServicesPage() {
                           <Input
                             type="email"
                             placeholder={content[language].email}
+                            className="h-12 text-base"
                           />
                         </div>
                       </div>
+
                       <div>
                         <label className="block text-sm font-medium text-foreground mb-2">
                           {content[language].message}
@@ -655,19 +661,26 @@ export default function ServicesPage() {
                         <Textarea
                           placeholder={content[language].message}
                           rows={5}
+                          className="text-base"
                         />
                       </div>
-                      <Button className="w-full" size="lg">
+
+                      <Button
+                        className="w-full h-12 text-base font-medium flex items-center justify-center"
+                        size="lg"
+                      >
                         {content[language].send}
-                        <ArrowRight className="ml-2 h-4 w-4" />
+                        <ArrowRight className="ml-2 h-5 w-5" />
                       </Button>
                     </form>
                   </CardContent>
-                </Card>
-              </div>
+                </Card> */}
+              {/* </div>
             </div>
-          </section>
+          </section> */}
         </div>
+
+        <Footer/>
       </section>
     </div>
   );
