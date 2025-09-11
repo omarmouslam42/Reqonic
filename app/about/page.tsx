@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Target, Eye, Heart, Users, Award, Globe, ArrowRight, Linkedin, Twitter, Mail } from "lucide-react"
+import { Footer } from "@/components/footer"
 
 export default function AboutPage() {
   const values = [
@@ -82,7 +83,7 @@ export default function AboutPage() {
       <section className="bg-gradient-to-br from-background via-background to-muted py-20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center space-y-6 max-w-4xl mx-auto">
-            <Badge className="bg-primary/10 text-primary border-primary/20">About Reqonic</Badge>
+            {/* <Badge className="bg-primary/10 text-primary border-primary/20">About Reqonic</Badge> */}
             <h1 className="text-4xl lg:text-6xl font-bold text-foreground leading-tight text-balance">
               Pioneering the Future of <span className="text-primary">Technology Solutions</span>
             </h1>
@@ -242,6 +243,8 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
+
+       <Footer/>
     </main>
   )
 }

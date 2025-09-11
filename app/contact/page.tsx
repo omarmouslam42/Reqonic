@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
 import { MapPin, Phone, Mail, Clock, Send, MessageSquare, Headphones, Users, ArrowRight } from "lucide-react"
+import { Footer } from "@/components/footer"
 
 export default function ContactPage() {
   const contactInfo = [
@@ -89,7 +90,7 @@ export default function ContactPage() {
       <section className="bg-gradient-to-br from-background via-background to-muted py-20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center space-y-6 max-w-4xl mx-auto">
-            <Badge className="bg-primary/10 text-primary border-primary/20">Get In Touch</Badge>
+            {/* <Badge className="bg-primary/10 text-primary border-primary/20">Get In Touch</Badge> */}
             <h1 className="text-4xl lg:text-6xl font-bold text-foreground leading-tight text-balance">
               Let's Build Something <span className="text-primary">Amazing Together</span>
             </h1>
@@ -329,6 +330,8 @@ export default function ContactPage() {
           </Card>
         </div>
       </section>
+
+      <Footer/>
     </main>
   )
 }
