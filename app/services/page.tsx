@@ -450,7 +450,7 @@ export default function ServicesPage() {
               </div>
 
               <div className="mb-16">
-                <Carousel
+                {/* <Carousel
                   opts={{
                     align: "start",
                     loop: true,
@@ -501,7 +501,60 @@ export default function ServicesPage() {
                   </CarouselContent>
                   <CarouselPrevious className="hidden md:flex" />
                   <CarouselNext className="hidden md:flex" />
-                </Carousel>
+                </Carousel> */}
+                <Carousel
+  opts={{
+    align: "center",
+    loop: true,
+  }}
+  className="w-full max-w-6xl mx-auto "
+>
+  <CarouselContent
+   className="-ml-2 md:-ml-4 ">
+    {individualServices.map((service, index) => (
+      <CarouselItem
+        key={index}
+        // نخلي الكارت ياخد عرض أكبر (زي عرض كارتين)
+        className="pl-2 md:pl-6 basis-full sm:basis-full lg:basis-full "
+      >
+        <Card className="group hover:shadow-xl  transition-all duration-500 hover:-translate-y-2 h-full">
+          <CardHeader>
+            <div className="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors duration-300">
+              <service.icon className="h-8 w-8 text-primary" />
+            </div>
+            <CardTitle className="text-2xl">{service.title}</CardTitle>
+            <CardDescription className="text-base">
+              {service.description}
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ul className="space-y-3">
+              {service.features.map((feature, idx) => (
+                <li
+                  key={idx}
+                  className="flex items-center text-sm text-muted-foreground"
+                >
+                  <CheckCircle className="h-4 w-4 text-primary mr-2 flex-shrink-0 animate-pulse" />
+                  {feature}
+                </li>
+              ))}
+            </ul>
+            <Button
+              className="w-full mt-6 bg-transparent hover:bg-primary hover:text-white transition-all duration-300"
+              variant="outline"
+            >
+              {content[language].learnMore}
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </CardContent>
+        </Card>
+      </CarouselItem>
+    ))}
+  </CarouselContent>
+  <CarouselPrevious className="hidden md:flex" />
+  <CarouselNext className="hidden md:flex" />
+</Carousel>
+
               </div>
             </div>
           ) : (
@@ -518,6 +571,7 @@ export default function ServicesPage() {
               <div className="mb-16">
                 <Carousel
                   opts={{
+                    
                     align: "start",
                     loop: true,
                   }}
@@ -527,7 +581,7 @@ export default function ServicesPage() {
                     {corporateServices.map((service, index) => (
                       <CarouselItem
                         key={index}
-                        className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3"
+                        className="pl-2 md:pl-4 md:basis-full lg:basis-full"
                       >
                         <Card className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1 h-full">
                           <CardHeader>

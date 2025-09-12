@@ -1,337 +1,200 @@
+"use client"
+
+import { useState } from "react"
 import { Navigation } from "@/components/navigation"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Badge } from "@/components/ui/badge"
-import { MapPin, Phone, Mail, Clock, Send, MessageSquare, Headphones, Users, ArrowRight } from "lucide-react"
 import { Footer } from "@/components/footer"
+import { MapPin, Phone, Mail, Send } from "lucide-react"
 
 export default function ContactPage() {
   const contactInfo = [
     {
       icon: MapPin,
-      title: "Headquarters",
-      details: ["123 Technology Boulevard", "Innovation District", "Dubai, UAE 12345"],
+      label: "Visit Us",
+      value: "Office 201-14, Al Nisf building, Airport road, Dubai, UAE",
     },
     {
       icon: Phone,
-      title: "Phone Numbers",
-      details: ["+971 4 123 4567 (Main)", "+971 4 123 4568 (Support)", "+1 555 123 4569 (US)"],
+      label: "Call Us",
+      value: "0523299663",
     },
     {
       icon: Mail,
-      title: "Email Addresses",
-      details: ["info@reqonic.com", "support@reqonic.com", "sales@reqonic.com"],
-    },
-    {
-      icon: Clock,
-      title: "Business Hours",
-      details: ["Monday - Friday: 9:00 AM - 6:00 PM", "Saturday: 10:00 AM - 4:00 PM", "Sunday: Closed"],
+      label: "Email Us",
+      value: "info@reqonic.com",
     },
   ]
 
-  const supportOptions = [
-    {
-      icon: MessageSquare,
-      title: "General Inquiries",
-      description: "Questions about our services or company information",
-      contact: "info@reqonic.com",
-      responseTime: "Within 24 hours",
-    },
-    {
-      icon: Headphones,
-      title: "Technical Support",
-      description: "Get help with technical issues or troubleshooting",
-      contact: "support@reqonic.com",
-      responseTime: "Within 4 hours",
-    },
-    {
-      icon: Users,
-      title: "Sales & Partnerships",
-      description: "Discuss new projects or partnership opportunities",
-      contact: "sales@reqonic.com",
-      responseTime: "Within 12 hours",
-    },
-  ]
+  const [form, setForm] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    subject: "",
+    message: "",
+  })
 
-  const offices = [
-    {
-      city: "Dubai",
-      country: "UAE",
-      address: "123 Technology Boulevard, Innovation District",
-      phone: "+971 4 123 4567",
-      email: "dubai@reqonic.com",
-      isHeadquarters: true,
-    },
-    {
-      city: "London",
-      country: "UK",
-      address: "456 Tech Street, Canary Wharf",
-      phone: "+44 20 1234 5678",
-      email: "london@reqonic.com",
-      isHeadquarters: false,
-    },
-    {
-      city: "New York",
-      country: "USA",
-      address: "789 Innovation Ave, Manhattan",
-      phone: "+1 555 123 4567",
-      email: "newyork@reqonic.com",
-      isHeadquarters: false,
-    },
-  ]
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setForm({ ...form, [e.target.name]: e.target.value })
+  }
+
+  // Build formatted email body + subject
+  const buildMailTo = () => {
+    let body = `New Contact Form Submission:\n\n`
+
+    if (form.firstName || form.lastName) {
+      body += `Name: ${form.firstName} ${form.lastName}\n`
+    }
+    if (form.email) {
+      body += `Email: ${form.email}\n`
+    }
+    if (form.phone) {
+      body += `Phone: ${form.phone}\n`
+    }
+    if (form.subject) {
+      body += `Subject: ${form.subject}\n`
+    }
+    if (form.message) {
+      body += `\nMessage:\n${form.message}\n`
+    }
+
+    // subject line that includes user subject if exists
+    const subject = form.subject
+      ? `New Contact Form Submission - ${form.subject}`
+      : "New Contact Form Submission"
+
+    return `mailto:dev.mohamed.moorsy@gmail.com?subject=${encodeURIComponent(
+      subject
+    )}&body=${encodeURIComponent(body)}`
+  }
 
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen flex flex-col bg-background">
       <Navigation />
 
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-background via-background to-muted py-20">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center space-y-6 max-w-4xl mx-auto">
-            {/* <Badge className="bg-primary/10 text-primary border-primary/20">Get In Touch</Badge> */}
-            <h1 className="text-4xl lg:text-6xl font-bold text-foreground leading-tight text-balance">
-              Let's Build Something <span className="text-primary">Amazing Together</span>
-            </h1>
-            <p className="text-xl text-muted-foreground leading-relaxed text-pretty">
-              Ready to transform your business with cutting-edge technology? Our team of experts is here to help you
-              achieve your goals.
-            </p>
-          </div>
+      <section className="relative bg-primary/5 py-24 text-center">
+        <div className="container mx-auto px-6 max-w-3xl">
+          <h1 className="text-4xl md:text-6xl font-extrabold leading-tight text-foreground">
+            Let’s Work <span className="text-primary">Together</span>
+          </h1>
+          <p className="mt-4 text-lg text-muted-foreground">
+            Whether you have a question or want to start a project, our team is here for you.
+          </p>
         </div>
       </section>
 
-      {/* Contact Form & Info */}
+      {/* Split Layout */}
       <section className="py-20">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-16">
-            {/* Contact Form */}
-            <div>
-              <div className="mb-8">
-                <h2 className="text-3xl font-bold text-foreground mb-4">Send Us a Message</h2>
-                <p className="text-muted-foreground">
-                  Fill out the form below and we'll get back to you as soon as possible.
-                </p>
-              </div>
+        <div className="container mx-auto px-6 grid lg:grid-cols-2 gap-10">
+          {/* Contact Info */}
+          <div className="bg-muted/40 rounded-xl p-10 flex flex-col justify-center space-y-8">
+            <h2 className="text-3xl font-bold">Get in Touch</h2>
+            <p className="text-muted-foreground">
+              Reach us through any of the following channels or use the form to send a direct message.
+            </p>
 
-              <Card>
-                <CardHeader>
-                  <CardTitle>Contact Form</CardTitle>
-                  <CardDescription>
-                    Tell us about your project and we'll provide you with a detailed consultation.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <label htmlFor="firstName" className="text-sm font-medium text-foreground">
-                        First Name *
-                      </label>
-                      <Input id="firstName" placeholder="John" required />
-                    </div>
-                    <div className="space-y-2">
-                      <label htmlFor="lastName" className="text-sm font-medium text-foreground">
-                        Last Name *
-                      </label>
-                      <Input id="lastName" placeholder="Doe" required />
-                    </div>
+            <div className="space-y-6">
+              {contactInfo.map((item, i) => (
+                <div key={i} className="flex items-center gap-4">
+                  <div className="p-3 rounded-lg bg-primary/10">
+                    <item.icon className="h-6 w-6 text-primary" />
                   </div>
-
-                  <div className="space-y-2">
-                    <label htmlFor="email" className="text-sm font-medium text-foreground">
-                      Email Address *
-                    </label>
-                    <Input id="email" type="email" placeholder="john@example.com" required />
+                  <div>
+                    <p className="font-semibold">{item.label}</p>
+                    <p className="text-muted-foreground">{item.value}</p>
                   </div>
-
-                  <div className="space-y-2">
-                    <label htmlFor="phone" className="text-sm font-medium text-foreground">
-                      Phone Number
-                    </label>
-                    <Input id="phone" type="tel" placeholder="+1 (555) 123-4567" />
-                  </div>
-
-                  <div className="space-y-2">
-                    <label htmlFor="company" className="text-sm font-medium text-foreground">
-                      Company Name
-                    </label>
-                    <Input id="company" placeholder="Your Company" />
-                  </div>
-
-                  <div className="space-y-2">
-                    <label htmlFor="subject" className="text-sm font-medium text-foreground">
-                      Subject *
-                    </label>
-                    <Input id="subject" placeholder="How can we help you?" required />
-                  </div>
-
-                  <div className="space-y-2">
-                    <label htmlFor="message" className="text-sm font-medium text-foreground">
-                      Message *
-                    </label>
-                    <Textarea
-                      id="message"
-                      placeholder="Tell us about your project, requirements, timeline, and any specific questions you have..."
-                      rows={5}
-                      required
-                    />
-                  </div>
-
-                  <Button className="w-full" size="lg">
-                    Send Message
-                    <Send className="ml-2 h-5 w-5" />
-                  </Button>
-
-                  <p className="text-xs text-muted-foreground text-center">
-                    By submitting this form, you agree to our privacy policy and terms of service.
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* Contact Information */}
-            <div className="space-y-8">
-              <div>
-                <h2 className="text-3xl font-bold text-foreground mb-4">Contact Information</h2>
-                <p className="text-muted-foreground mb-8">
-                  Reach out to us through any of the following channels. We're here to help!
-                </p>
-
-                <div className="grid gap-6">
-                  {contactInfo.map((info, index) => (
-                    <Card key={index}>
-                      <CardContent className="p-6">
-                        <div className="flex items-start space-x-4">
-                          <div className="p-2 bg-primary/10 rounded-lg">
-                            <info.icon className="h-5 w-5 text-primary" />
-                          </div>
-                          <div>
-                            <h3 className="font-semibold text-foreground mb-2">{info.title}</h3>
-                            <div className="space-y-1">
-                              {info.details.map((detail, detailIndex) => (
-                                <p key={detailIndex} className="text-sm text-muted-foreground">
-                                  {detail}
-                                </p>
-                              ))}
-                            </div>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
                 </div>
-              </div>
+              ))}
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* Support Options */}
-      <section className="py-20 bg-muted/30">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center space-y-4 mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-foreground">How Can We Help?</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Choose the best way to reach us based on your specific needs.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {supportOptions.map((option, index) => (
-              <Card key={index} className="text-center h-full">
-                <CardHeader>
-                  <div className="mx-auto p-3 bg-primary/10 rounded-full w-fit">
-                    <option.icon className="h-8 w-8 text-primary" />
-                  </div>
-                  <CardTitle className="text-xl">{option.title}</CardTitle>
-                  <CardDescription>{option.description}</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="space-y-2">
-                    <p className="font-medium text-foreground">{option.contact}</p>
-                    <p className="text-sm text-muted-foreground">Response time: {option.responseTime}</p>
-                  </div>
-                  <Button variant="outline" className="w-full bg-transparent">
-                    Contact Now
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Office Locations */}
-      <section className="py-20">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center space-y-4 mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-foreground">Our Global Offices</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              We have offices around the world to serve you better.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {offices.map((office, index) => (
-              <Card key={index} className={`relative ${office.isHeadquarters ? "ring-2 ring-primary" : ""}`}>
-                {office.isHeadquarters && (
-                  <Badge className="absolute -top-3 left-6 bg-primary text-primary-foreground">Headquarters</Badge>
-                )}
-                <CardHeader>
-                  <CardTitle className="text-xl">
-                    {office.city}, {office.country}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="space-y-3">
-                    <div className="flex items-start space-x-2">
-                      <MapPin className="h-4 w-4 text-primary mt-1 flex-shrink-0" />
-                      <p className="text-sm text-muted-foreground">{office.address}</p>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <Phone className="h-4 w-4 text-primary flex-shrink-0" />
-                      <p className="text-sm text-muted-foreground">{office.phone}</p>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <Mail className="h-4 w-4 text-primary flex-shrink-0" />
-                      <p className="text-sm text-muted-foreground">{office.email}</p>
-                    </div>
-                  </div>
-                  <Button variant="outline" className="w-full bg-transparent">
-                    Get Directions
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Map Section */}
-      <section className="py-20 bg-muted/30">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center space-y-4 mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold text-foreground">Find Us</h2>
-            <p className="text-lg text-muted-foreground">Visit our headquarters in Dubai's Innovation District</p>
-          </div>
-
-          <Card className="overflow-hidden">
-            <div className="h-96 bg-muted flex items-center justify-center">
-              <div className="text-center space-y-2">
-                <MapPin className="h-12 w-12 text-primary mx-auto" />
-                <p className="text-muted-foreground">Interactive map would be embedded here</p>
-                <p className="text-sm text-muted-foreground">
-                  123 Technology Boulevard, Innovation District, Dubai, UAE
-                </p>
+          {/* Form */}
+          <Card className="shadow-lg border-0">
+            <CardHeader>
+              <CardTitle className="text-2xl font-bold">Send Us a Message</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-5">
+              <div className="grid md:grid-cols-2 gap-4">
+                <Input
+                  name="firstName"
+                  placeholder="First Name *"
+                  value={form.firstName}
+                  onChange={handleChange}
+                  required
+                />
+                <Input
+                  name="lastName"
+                  placeholder="Last Name *"
+                  value={form.lastName}
+                  onChange={handleChange}
+                  required
+                />
               </div>
-            </div>
+              <Input
+                name="email"
+                type="email"
+                placeholder="Email Address *"
+                value={form.email}
+                onChange={handleChange}
+                required
+              />
+              <Input
+                name="phone"
+                type="tel"
+                placeholder="Phone Number"
+                value={form.phone}
+                onChange={handleChange}
+              />
+              <Input
+                name="subject"
+                placeholder="Subject *"
+                value={form.subject}
+                onChange={handleChange}
+                required
+              />
+              <Textarea
+                name="message"
+                placeholder="Your message..."
+                rows={5}
+                value={form.message}
+                onChange={handleChange}
+                required
+              />
+              <Button asChild className="w-full h-12 text-lg font-medium">
+                <a href={buildMailTo()}>
+                  Send Message <Send className="ml-2 h-5 w-5" />
+                </a>
+              </Button>
+            </CardContent>
           </Card>
         </div>
       </section>
 
-      <Footer/>
+      {/* Map */}
+      <section className="py-20 bg-muted/30">
+        <div className="container mx-auto px-6 text-center space-y-6">
+          <h2 className="text-3xl md:text-4xl font-bold">Our Location</h2>
+          <p className="text-muted-foreground">
+            Find our headquarters in Dubai’s Innovation District
+          </p>
+          <div className="rounded-xl overflow-hidden shadow-md h-[450px] w-full">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3609.7606763730333!2d55.34809631501061!3d25.252513583871314!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f5d7e6dbb67e7%3A0xb2b81a3fdb58d890!2sDubai%20Airport!5e0!3m2!1sen!2sae!4v1693322389355!5m2!1sen!2sae"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
     </main>
   )
 }

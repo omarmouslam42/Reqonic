@@ -24,6 +24,8 @@ export default function RootLayout({
   return (
     <html lang="en" dir="ltr">
       <body
+              suppressHydrationWarning={true}
+
         className={`${GeistSans.variable} ${GeistMono.variable} font-sans bg-background text-foreground antialiased`}
       >
         <ThemeProvider
@@ -34,6 +36,7 @@ export default function RootLayout({
         >
           <LanguageProvider>
             <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+            
           </LanguageProvider>
           <Analytics />
         </ThemeProvider>
