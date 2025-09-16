@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -32,11 +33,15 @@ export function Navigation() {
               href="/"
               className="flex items-center space-x-2 rtl:space-x-reverse"
             >
-              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-lg">
-                  R
-                </span>
-              </div>
+              <div className="w-8 h-8  rounded-lg flex items-center justify-center">
+  <Image
+    src="/ReqonicLogoWhite-BlueBackground.svg"   
+    alt="Reqonic Logo"
+    width={100}
+    height={100}
+    className="object-cover"
+  />
+</div>
               <span className="text-xl font-bold text-foreground">Reqonic</span>
             </Link>
           </div>

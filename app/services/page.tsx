@@ -361,15 +361,11 @@ export default function ServicesPage() {
           {/* Hero Content */}
           <div className="text-center max-w-5xl mx-auto relative">
             <div className="flex items-center justify-center gap-3 mb-6">
-              <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center">
-                <Settings className="h-6 w-6 text-primary" />
-              </div>
-              <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                {content[language].title}
-              </h1>
-              <div className="w-12 h-12 bg-secondary/20 rounded-full flex items-center justify-center">
-                <Globe className="h-6 w-6 text-secondary" />
-              </div>
+              
+             <h1 className="text-5xl md:text-7xl font-bold font-serif bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+  {content[language].title}
+</h1>
+             
             </div>
 
             <p className="text-2xl md:text-3xl text-muted-foreground mb-6 font-medium text-balance">
@@ -449,103 +445,52 @@ export default function ServicesPage() {
                 </p>
               </div>
 
-              <div className="mb-16">
-                {/* <Carousel
-                  opts={{
-                    align: "start",
-                    loop: true,
-                  }}
-                  className="w-full max-w-6xl mx-auto"
-                >
-                  <CarouselContent className="-ml-2 md:-ml-4">
-                    {individualServices.map((service, index) => (
-                      <CarouselItem
-                        key={index}
-                        className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3"
-                      >
-                        <Card className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1 h-full">
-                          <CardHeader>
-                            <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
-                              <service.icon className="h-6 w-6 text-primary" />
-                            </div>
-                            <CardTitle className="text-xl">
-                              {service.title}
-                            </CardTitle>
-                            <CardDescription>
-                              {service.description}
-                            </CardDescription>
-                          </CardHeader>
-                          <CardContent>
-                            <ul className="space-y-2">
-                              {service.features.map((feature, idx) => (
-                                <li
-                                  key={idx}
-                                  className="flex items-center text-sm text-muted-foreground"
-                                >
-                                  <CheckCircle className="h-4 w-4 text-primary mr-2 flex-shrink-0" />
-                                  {feature}
-                                </li>
-                              ))}
-                            </ul>
-                            <Button
-                              className="w-full mt-6 bg-transparent"
-                              variant="outline"
-                            >
-                              {content[language].learnMore}
-                              <ArrowRight className="ml-2 h-4 w-4" />
-                            </Button>
-                          </CardContent>
-                        </Card>
-                      </CarouselItem>
-                    ))}
-                  </CarouselContent>
-                  <CarouselPrevious className="hidden md:flex" />
-                  <CarouselNext className="hidden md:flex" />
-                </Carousel> */}
+              <div className="mb-16 text">
+            
                 <Carousel
   opts={{
     align: "center",
     loop: true,
   }}
-  className="w-full max-w-6xl mx-auto "
+  className="w-full max-w-6xl mx-auto"
 >
   <CarouselContent
-   className="-ml-2 md:-ml-4 ">
+   className="-ml-2 md:-ml-4 text-center">
     {individualServices.map((service, index) => (
       <CarouselItem
         key={index}
         // نخلي الكارت ياخد عرض أكبر (زي عرض كارتين)
-        className="pl-2 md:pl-6 basis-full sm:basis-full lg:basis-full "
+        className="pl-2 md:pl-6 basis-full sm:basis-full lg:basis-full"
       >
         <Card className="group hover:shadow-xl  transition-all duration-500 hover:-translate-y-2 h-full">
           <CardHeader>
-            <div className="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors duration-300">
+            <div className="m-auto w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors duration-300">
               <service.icon className="h-8 w-8 text-primary" />
             </div>
-            <CardTitle className="text-2xl">{service.title}</CardTitle>
+            <CardTitle className="text-2xl ">{service.title}</CardTitle>
             <CardDescription className="text-base">
               {service.description}
             </CardDescription>
           </CardHeader>
-          <CardContent>
-            <ul className="space-y-3">
-              {service.features.map((feature, idx) => (
-                <li
-                  key={idx}
-                  className="flex items-center text-sm text-muted-foreground"
-                >
-                  <CheckCircle className="h-4 w-4 text-primary mr-2 flex-shrink-0 animate-pulse" />
-                  {feature}
-                </li>
-              ))}
-            </ul>
-            <Button
+   <CardContent className="flex flex-col items-center text-center">
+  <ul className="space-y-3 text-left">
+    {service.features.map((feature, idx) => (
+      <li
+        key={idx}
+        className="flex items-center text-sm text-muted-foreground"
+      >
+        <CheckCircle className="h-4 w-4 text-primary mr-2 flex-shrink-0 animate-pulse" />
+        {feature}
+      </li>
+    ))}
+  </ul>
+            {/* <Button
               className="w-full mt-6 bg-transparent hover:bg-primary hover:text-white transition-all duration-300"
               variant="outline"
             >
               {content[language].learnMore}
               <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
+            </Button> */}
           </CardContent>
         </Card>
       </CarouselItem>
@@ -577,6 +522,7 @@ export default function ServicesPage() {
                   }}
                   className="w-full max-w-6xl mx-auto"
                 >
+                  corporateServices
                   <CarouselContent className="-ml-2 md:-ml-4">
                     {corporateServices.map((service, index) => (
                       <CarouselItem
@@ -585,35 +531,35 @@ export default function ServicesPage() {
                       >
                         <Card className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1 h-full">
                           <CardHeader>
-                            <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
+                            <div className="m-auto w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
                               <service.icon className="h-6 w-6 text-primary" />
                             </div>
-                            <CardTitle className="text-xl">
+                            <CardTitle className="text-xl text-center">
                               {service.title}
                             </CardTitle>
-                            <CardDescription>
+                            <CardDescription className ="text-base text-center">
                               {service.description}
                             </CardDescription>
                           </CardHeader>
-                          <CardContent>
-                            <ul className="space-y-2">
-                              {service.features.map((feature, idx) => (
-                                <li
-                                  key={idx}
-                                  className="flex items-center text-sm text-muted-foreground"
-                                >
-                                  <CheckCircle className="h-4 w-4 text-primary mr-2 flex-shrink-0" />
-                                  {feature}
-                                </li>
-                              ))}
-                            </ul>
-                            <Button
+                         <CardContent className="flex flex-col items-center text-center">
+  <ul className="space-y-3 text-left">
+    {service.features.map((feature, idx) => (
+      <li
+        key={idx}
+        className="flex items-center text-sm text-muted-foreground"
+      >
+        <CheckCircle className="h-4 w-4 text-primary mr-2 flex-shrink-0 animate-pulse" />
+        {feature}
+      </li>
+    ))}
+  </ul>
+                            {/* <Button
                               className="w-full mt-6 bg-transparent"
                               variant="outline"
                             >
                               {content[language].learnMore}
                               <ArrowRight className="ml-2 h-4 w-4" />
-                            </Button>
+                            </Button> */}
                           </CardContent>
                         </Card>
                       </CarouselItem>
@@ -667,71 +613,6 @@ export default function ServicesPage() {
               </Carousel>
             </div>
           </section>
-
-          {/* Contact Section */}
-          {/* <section className="py-20 bg-background">
-            <div className="container mx-auto px-4">
-              <div className="max-w-4xl mx-auto"> */}
-                {/* Section Header */}
-                {/* <div className="text-center mb-12">
-                  <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-                    {content[language].contactTitle}
-                  </h2>
-                  <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                    {content[language].contactSubtitle}
-                  </p>
-                </div> */}
-
-                {/* Contact Card */}
-                {/* <Card className="max-w-2xl mx-auto shadow-lg border rounded-2xl">
-                  <CardContent className="p-8">
-                    <form className="space-y-6">
-                      <div className="grid md:grid-cols-2 gap-6">
-                        <div>
-                          <label className="block text-sm font-medium text-foreground mb-2">
-                            {content[language].name}
-                          </label>
-                          <Input
-                            placeholder={content[language].name}
-                            className="h-12 text-base"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-foreground mb-2">
-                            {content[language].email}
-                          </label>
-                          <Input
-                            type="email"
-                            placeholder={content[language].email}
-                            className="h-12 text-base"
-                          />
-                        </div>
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-medium text-foreground mb-2">
-                          {content[language].message}
-                        </label>
-                        <Textarea
-                          placeholder={content[language].message}
-                          rows={5}
-                          className="text-base"
-                        />
-                      </div>
-
-                      <Button
-                        className="w-full h-12 text-base font-medium flex items-center justify-center"
-                        size="lg"
-                      >
-                        {content[language].send}
-                        <ArrowRight className="ml-2 h-5 w-5" />
-                      </Button>
-                    </form>
-                  </CardContent>
-                </Card> */}
-              {/* </div>
-            </div>
-          </section> */}
         </div>
 
         <Footer/>

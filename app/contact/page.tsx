@@ -8,25 +8,90 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Footer } from "@/components/footer"
 import { MapPin, Phone, Mail, Send } from "lucide-react"
+import { useLanguage } from "@/context/LanguageContext"
 
 export default function ContactPage() {
-  const contactInfo = [
-    {
-      icon: MapPin,
-      label: "Visit Us",
-      value: "Office 201-14, Al Nisf building, Airport road, Dubai, UAE",
+  const { language } = useLanguage()
+
+  const content = {
+    en: {
+      heroTitle: "Let’s Work Together",
+      heroSubtitle:
+        "Whether you have a question or want to start a project, our team is here for you.",
+      contactTitle: "Get in Touch",
+      contactSubtitle:
+        "Reach us through any of the following channels or use the form to send a direct message.",
+      contactInfo: [
+        {
+          icon: MapPin,
+          label: "Visit Us",
+          value: "Office 201-14, Al Nisf building, Airport road, Dubai, UAE",
+          href: "https://maps.google.com/?q=Office 201-14, Al Nisf building, Airport road, Dubai, UAE",
+        },
+        {
+          icon: Phone,
+          label: "Call Us - WhatsApp",
+          value: "0523299663",
+          href: "https://wa.me/971523299663", // WhatsApp link with UAE code
+        },
+        {
+          icon: Mail,
+          label: "Email Us",
+          value: "info@reqonic.com",
+          href: "https://mail.google.com/mail/?view=cm&to=info@reqonic.com",
+        },
+      ],
+      formTitle: "Send Us a Message",
+      firstName: "First Name *",
+      lastName: "Last Name *",
+      email: "Email Address *",
+      phone: "Phone Number",
+      subject: "Subject *",
+      message: "Your message...",
+      send: "Send Message",
+      mapTitle: "Our Location",
+      mapSubtitle: "Find our headquarters in Dubai’s Innovation District",
     },
-    {
-      icon: Phone,
-      label: "Call Us",
-      value: "0523299663",
+    ar: {
+      heroTitle: "لنبدأ العمل معًا",
+      heroSubtitle:
+        "سواء كان لديك سؤال أو ترغب في بدء مشروع، فإن فريقنا هنا من أجلك.",
+      contactTitle: "تواصل معنا",
+      contactSubtitle:
+        "تواصل معنا عبر أي من القنوات التالية أو استخدم النموذج لإرسال رسالة مباشرة.",
+      contactInfo: [
+        {
+          icon: MapPin,
+          label: "زورنا",
+          value:
+            "مكتب 201-14، مبنى النصف، طريق المطار، دبي، الإمارات العربية المتحدة",
+          href: "https://maps.google.com/?q=Office 201-14, Al Nisf building, Airport road, Dubai, UAE",
+        },
+        {
+          icon: Phone,
+          label: "اتصل بنا",
+          value: "0523299663",
+          href: "https://wa.me/971523299663", // نفس رابط واتساب
+        },
+        {
+          icon: Mail,
+          label: "راسلنا",
+          value: "info@reqonic.com",
+          href: "https://mail.google.com/mail/?view=cm&to=info@reqonic.com",
+        },
+      ],
+      formTitle: "أرسل لنا رسالة",
+      firstName: "الاسم الأول *",
+      lastName: "اسم العائلة *",
+      email: "البريد الإلكتروني *",
+      phone: "رقم الهاتف",
+      subject: "الموضوع *",
+      message: "رسالتك...",
+      send: "إرسال الرسالة",
+      mapTitle: "موقعنا",
+      mapSubtitle: "اعثر على مقرنا في منطقة الابتكار بدبي",
     },
-    {
-      icon: Mail,
-      label: "Email Us",
-      value: "info@reqonic.com",
-    },
-  ]
+  } as const
 
   const [form, setForm] = useState({
     firstName: "",
@@ -37,13 +102,15 @@ export default function ContactPage() {
     message: "",
   })
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setForm({ ...form, [e.target.name]: e.target.value })
   }
 
   // Build formatted email body + subject
   const buildMailTo = () => {
-    let body = `New Contact Form Submission:\n\n`
+    let body = `${content[language].formTitle}:\n\n`
 
     if (form.firstName || form.lastName) {
       body += `Name: ${form.firstName} ${form.lastName}\n`
@@ -61,10 +128,9 @@ export default function ContactPage() {
       body += `\nMessage:\n${form.message}\n`
     }
 
-    // subject line that includes user subject if exists
     const subject = form.subject
-      ? `New Contact Form Submission - ${form.subject}`
-      : "New Contact Form Submission"
+      ? `${content[language].formTitle} - ${form.subject}`
+      : content[language].formTitle
 
     return `mailto:dev.mohamed.moorsy@gmail.com?subject=${encodeURIComponent(
       subject
@@ -72,17 +138,23 @@ export default function ContactPage() {
   }
 
   return (
-    <main className="min-h-screen flex flex-col bg-background">
+    <main
+      className="min-h-screen flex flex-col bg-background"
+      dir={language === "ar" ? "rtl" : "ltr"}
+    >
       <Navigation />
 
       {/* Hero Section */}
       <section className="relative bg-primary/5 py-24 text-center">
         <div className="container mx-auto px-6 max-w-3xl">
-          <h1 className="text-4xl md:text-6xl font-extrabold leading-tight text-foreground">
-            Let’s Work <span className="text-primary">Together</span>
+          <h1 className="text-4xl md:text-6xl font-extrabold font-serif leading-tight text-foreground">
+            {content[language].heroTitle.split(" ").slice(0, -1).join(" ")}{" "}
+            <span className="text-primary">
+              {content[language].heroTitle.split(" ").slice(-1).join(" ")}
+            </span>
           </h1>
           <p className="mt-4 text-lg text-muted-foreground">
-            Whether you have a question or want to start a project, our team is here for you.
+            {content[language].heroSubtitle}
           </p>
         </div>
       </section>
@@ -92,22 +164,32 @@ export default function ContactPage() {
         <div className="container mx-auto px-6 grid lg:grid-cols-2 gap-10">
           {/* Contact Info */}
           <div className="bg-muted/40 rounded-xl p-10 flex flex-col justify-center space-y-8">
-            <h2 className="text-3xl font-bold">Get in Touch</h2>
+            <h2 className="text-3xl font-bold">
+              {content[language].contactTitle}
+            </h2>
             <p className="text-muted-foreground">
-              Reach us through any of the following channels or use the form to send a direct message.
+              {content[language].contactSubtitle}
             </p>
 
             <div className="space-y-6">
-              {contactInfo.map((item, i) => (
-                <div key={i} className="flex items-center gap-4">
-                  <div className="p-3 rounded-lg bg-primary/10">
+              {content[language].contactInfo.map((item, i) => (
+                <a
+                  key={i}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-4 group"
+                >
+                  <div className="p-3 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition">
                     <item.icon className="h-6 w-6 text-primary" />
                   </div>
                   <div>
                     <p className="font-semibold">{item.label}</p>
-                    <p className="text-muted-foreground">{item.value}</p>
+                    <p className="text-muted-foreground group-hover:text-primary transition">
+                      {item.value}
+                    </p>
                   </div>
-                </div>
+                </a>
               ))}
             </div>
           </div>
@@ -115,20 +197,22 @@ export default function ContactPage() {
           {/* Form */}
           <Card className="shadow-lg border-0">
             <CardHeader>
-              <CardTitle className="text-2xl font-bold">Send Us a Message</CardTitle>
+              <CardTitle className="text-2xl font-bold">
+                {content[language].formTitle}
+              </CardTitle>
             </CardHeader>
             <CardContent className="space-y-5">
               <div className="grid md:grid-cols-2 gap-4">
                 <Input
                   name="firstName"
-                  placeholder="First Name *"
+                  placeholder={content[language].firstName}
                   value={form.firstName}
                   onChange={handleChange}
                   required
                 />
                 <Input
                   name="lastName"
-                  placeholder="Last Name *"
+                  placeholder={content[language].lastName}
                   value={form.lastName}
                   onChange={handleChange}
                   required
@@ -137,28 +221,28 @@ export default function ContactPage() {
               <Input
                 name="email"
                 type="email"
-                placeholder="Email Address *"
+                placeholder={content[language].email}
                 value={form.email}
                 onChange={handleChange}
                 required
               />
               <Input
                 name="phone"
-                type="tel"
-                placeholder="Phone Number"
+                type="number"
+                placeholder={content[language].phone}
                 value={form.phone}
                 onChange={handleChange}
               />
               <Input
                 name="subject"
-                placeholder="Subject *"
+                placeholder={content[language].subject}
                 value={form.subject}
                 onChange={handleChange}
                 required
               />
               <Textarea
                 name="message"
-                placeholder="Your message..."
+                placeholder={content[language].message}
                 rows={5}
                 value={form.message}
                 onChange={handleChange}
@@ -166,7 +250,7 @@ export default function ContactPage() {
               />
               <Button asChild className="w-full h-12 text-lg font-medium">
                 <a href={buildMailTo()}>
-                  Send Message <Send className="ml-2 h-5 w-5" />
+                  {content[language].send} <Send className="ml-2 h-5 w-5" />
                 </a>
               </Button>
             </CardContent>
@@ -177,13 +261,15 @@ export default function ContactPage() {
       {/* Map */}
       <section className="py-20 bg-muted/30">
         <div className="container mx-auto px-6 text-center space-y-6">
-          <h2 className="text-3xl md:text-4xl font-bold">Our Location</h2>
+          <h2 className="text-3xl md:text-4xl font-bold">
+            {content[language].mapTitle}
+          </h2>
           <p className="text-muted-foreground">
-            Find our headquarters in Dubai’s Innovation District
+            {content[language].mapSubtitle}
           </p>
           <div className="rounded-xl overflow-hidden shadow-md h-[450px] w-full">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3609.7606763730333!2d55.34809631501061!3d25.252513583871314!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f5d7e6dbb67e7%3A0xb2b81a3fdb58d890!2sDubai%20Airport!5e0!3m2!1sen!2sae!4v1693322389355!5m2!1sen!2sae"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3608.4612731399434!2d55.34247942510764!3d25.25506397935532!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f5d1120a9000b%3A0xefddef45eb79a07!2sHI%20BLENDED%20IT%20Solutions!5e0!3m2!1sar!2seg!4v1758064992900!5m2!1sar!2seg"
               width="100%"
               height="100%"
               style={{ border: 0 }}
