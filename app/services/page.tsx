@@ -1,6 +1,6 @@
 "use client";
 import { Navigation } from "@/components/navigation";
-import { useEffect, useMemo, useState } from "react";
+import {  useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -40,12 +40,18 @@ import { useLanguage } from "@/context/LanguageContext";
 import { Footer } from "@/components/footer";
 import Image from "next/image";
 import { motion } from "framer-motion";
-
+// Swiper imports
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Navigation as SwiperNav } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import { useRef } from "react";
 export default function ServicesPage() {
   const { language } = useLanguage();
   const [activeTab, setActiveTab] = useState("individual");
   const [currentIndex, setCurrentIndex] = useState<number>(0);
-
+  const prevRef = useRef<HTMLButtonElement>(null);
+  const nextRef = useRef<HTMLButtonElement>(null);
   const content = {
     en: {
       title: "Our Services",
@@ -523,88 +529,76 @@ Our mission is to help your game reach a global audience and maximize its succes
           </motion.div>
 
           {/* Carousel */}
-          <Carousel
-            dir="ltr"
-            opts={{ align: "start", loop: true }}
-            className="w-full max-w-6xl mx-auto relative"
-          >
-            <CarouselContent>
-              {memoizedServices.map((service, index) => (
-                <CarouselItem key={index} className="basis-full">
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{
-                      opacity: 1,
-                      y: 0,
-                      transition: { duration: 0.6, delay: index * 0.1 },
-                    }}
-                    viewport={{ once: true }}
-                  >
-                    <Card
-                      className={`grid grid-cols-1 md:grid-cols-2 ${
-                        language === "en"
-                          ? "md:[direction:rtl]"
-                          : "md:[direction:ltr]"
-                      } dark:bg-[#1C2443] gap-6 items-center p-0 overflow-hidden shadow-lg border`}
-                    >
-                      <div className="h-[500px] w-full overflow-hidden">
-                        <Image
-                          src={service.background}
-                          alt={service.title}
-                          width={500}
-                          height={500}
-                          className="w-full h-full object-cover"
-                          loading="lazy"
-                        />
-                      </div>
-                      <div
-                        className={`flex flex-col justify-start gap-8 h-full p-8 ${
-                          language === "ar" ? "text-right" : "text-left"
-                        }`}
-                      >
-                        <CardHeader>
-                          <CardTitle className="text-3xl font-bold">
-                            {service.title}
-                          </CardTitle>
-                          <CardDescription className="text-base text-muted-foreground">
-                            {service.description}
-                          </CardDescription>
-                        </CardHeader>
-                        <CardContent className={`flex flex-col items-start md:items-end`}>
-                          <ul className="space-y-3 mt-5">
-                            {service.features.map((feature, idx) => (
-                              <li
-                                key={idx}
-                                className={`flex items-center flex-row md:flex-row-reverse gap-2 text-sm text-foreground`}
-                              >
-                                <CheckCircle className="h-4 w-4 text-primary flex-shrink-0" />
-                                {feature}
-                              </li>
-                            ))}
-                          </ul>
-                        </CardContent>
-                      </div>
-                    </Card>
-                  </motion.div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <div
-              dir="ltr"
-              className="flex justify-center items-center gap-6 mt-6"
+          <div className="max-w-6xl mx-auto px-4 mb-20">
+            <Swiper
+              modules={[SwiperNav,Autoplay]}
+              onSlideChange={(swiper) => setCurrentIndex(swiper.realIndex)}
+              onBeforeInit={(swiper) => {
+                if (
+                  swiper.params.navigation &&
+                  typeof swiper.params.navigation !== "boolean"
+                ) {
+                  swiper.params.navigation.prevEl = prevRef.current;
+                  swiper.params.navigation.nextEl = nextRef.current;
+                }
+              }}
+              navigation={{ prevEl: prevRef.current, nextEl: nextRef.current }}
+              loop
+              autoplay={{ delay: 6000 }}
+              dir={language === "en" ? "rtl" : "ltr"}
+              slidesPerView={1}
             >
-              <div onClick={prevSlide}>
-                <CarouselPrevious className="relative translate-y-0 cursor-pointer bg-primary text-white hover:bg-primary/90 dark:bg-[#1C2443] dark:text-primary dark:hover:bg-[#1C2443] w-10 h-10 rounded-full shadow-lg transition" />
-              </div>
-              <span className="text-lg font-semibold text-foreground">
+              {memoizedServices.map((service, idx) => (
+                <SwiperSlide key={idx}>
+                  <Card className="grid grid-cols-1 md:grid-cols-2 gap-6 p-0 overflow-hidden shadow-lg border dark:bg-[#1C2443]">
+                    <div className="h-[300px] md:h-[400px] w-full overflow-hidden">
+                      <Image
+                        src={service.background}
+                        alt={service.title}
+                        width={500}
+                        height={500}
+                        className="w-full h-full object-cover"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div className="flex flex-col justify-start text-end gap-4 p-6 ">
+                      <CardHeader>
+                        <CardTitle className="text-2xl font-bold">
+                          {service.title}
+                        </CardTitle>
+                        <CardDescription>{service.description}</CardDescription>
+                      </CardHeader>
+                      <CardContent className="flex justify-end">
+                        <ul className="space-y-2 mt-2">
+                          {service.features.map((feature, i) => (
+                            <li
+                              key={i}
+                              className="flex flex-row-reverse gap-2 text-sm"
+                            >
+                              <CheckCircle className="h-4 w-4 text-primary" />
+                              {feature}
+                            </li>
+                          ))}
+                        </ul>
+                      </CardContent>
+                    </div>
+                  </Card>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+
+            <div dir="ltr" className="flex justify-center gap-4 mt-6">
+              <button  ref={prevRef} className="custom-prev cursor-pointer bg-primary text-white w-10 h-10 rounded-full shadow-lg flex items-center justify-center hover:bg-primary/90 transition">
+                &#8592;
+              </button>
+              <span className="font-bold text-lg">
                 {currentIndex + 1} / {memoizedServices.length}
               </span>
-
-              <div onClick={nextSlide}>
-                <CarouselNext className="relative translate-y-0 cursor-pointer bg-primary text-white hover:bg-primary/90 dark:bg-[#1C2443] dark:text-primary dark:hover:bg-[#1C2443] w-10 h-10 rounded-full shadow-lg transition" />
-              </div>
+              <button  ref={nextRef} className="custom-next cursor-pointer bg-primary text-white w-10 h-10 rounded-full shadow-lg flex items-center justify-center hover:bg-primary/90 transition">
+                &#8594;
+              </button>
             </div>
-          </Carousel>
+          </div>
         </div>
       </motion.section>
 
