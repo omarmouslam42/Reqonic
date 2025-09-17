@@ -1,6 +1,6 @@
 "use client";
 import { Navigation } from "@/components/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -369,18 +369,19 @@ Our mission is to help your game reach a global audience and maximize its succes
     visible: { opacity: 1, transition: { duration: 0.6 } },
   };
 
-  const servicesList =
-    activeTab === "individual" ? individualServices : corporateServices;
+  const memoizedServices = useMemo(() => {
+    return activeTab === "individual" ? individualServices : corporateServices;
+  }, [activeTab, language]);
 
   const prevSlide = () => {
     setCurrentIndex((prev) =>
-      prev === 0 ? servicesList.length - 1 : prev - 1
+      prev === 0 ? memoizedServices.length - 1 : prev - 1
     );
   };
 
   const nextSlide = () => {
     setCurrentIndex((prev) =>
-      prev === servicesList.length - 1 ? 0 : prev + 1
+      prev === memoizedServices.length - 1 ? 0 : prev + 1
     );
   };
   return (
@@ -403,6 +404,7 @@ Our mission is to help your game reach a global audience and maximize its succes
             fill
             className="object-cover"
             priority
+            decoding="async"
           />
         </div>
         <div className="absolute inset-0 -z-10 bg-grid-white/[0.02] bg-[size:50px_50px]" />
@@ -430,13 +432,13 @@ Our mission is to help your game reach a global audience and maximize its succes
 
           {/* Tabs */}
           <motion.div
-            className="flex justify-center mb-8"
+            className="flex justify-center  mb-8"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             variants={fadeIn}
           >
-            <div className="bg-background/60 backdrop-blur-sm p-2 space-x-2 rounded-xl border border-primary/10 shadow-lg">
+            <div className="bg-background/60 backdrop-blur-sm flex flex-col md:flex-row p-2 space-x-2 rounded-xl border border-primary/10 shadow-lg">
               <Button
                 variant={activeTab === "individual" ? "default" : "ghost"}
                 onClick={() => setActiveTab("individual")}
@@ -527,7 +529,7 @@ Our mission is to help your game reach a global audience and maximize its succes
             className="w-full max-w-6xl mx-auto relative"
           >
             <CarouselContent>
-              {servicesList.map((service, index) => (
+              {memoizedServices.map((service, index) => (
                 <CarouselItem key={index} className="basis-full">
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -552,6 +554,7 @@ Our mission is to help your game reach a global audience and maximize its succes
                           width={500}
                           height={500}
                           className="w-full h-full object-cover"
+                          loading="lazy"
                         />
                       </div>
                       <div
@@ -567,12 +570,12 @@ Our mission is to help your game reach a global audience and maximize its succes
                             {service.description}
                           </CardDescription>
                         </CardHeader>
-                        <CardContent className={`flex flex-col items-end`}>
+                        <CardContent className={`flex flex-col items-start md:items-end`}>
                           <ul className="space-y-3 mt-5">
                             {service.features.map((feature, idx) => (
                               <li
                                 key={idx}
-                                className={`flex items-center flex-row-reverse gap-2 text-sm text-foreground`}
+                                className={`flex items-center flex-row md:flex-row-reverse gap-2 text-sm text-foreground`}
                               >
                                 <CheckCircle className="h-4 w-4 text-primary flex-shrink-0" />
                                 {feature}
@@ -594,7 +597,7 @@ Our mission is to help your game reach a global audience and maximize its succes
                 <CarouselPrevious className="relative translate-y-0 cursor-pointer bg-primary text-white hover:bg-primary/90 dark:bg-[#1C2443] dark:text-primary dark:hover:bg-[#1C2443] w-10 h-10 rounded-full shadow-lg transition" />
               </div>
               <span className="text-lg font-semibold text-foreground">
-                {currentIndex + 1} / {servicesList.length}
+                {currentIndex + 1} / {memoizedServices.length}
               </span>
 
               <div onClick={nextSlide}>
