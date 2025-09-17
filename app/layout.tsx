@@ -15,6 +15,9 @@ export const metadata: Metadata = {
   description:
     "Professional technology and IT solutions for individuals and businesses. Database systems, cloud services, IT infrastructure, and more.",
   generator: "v0.app",
+  icons: {
+    icon: "/ReqonicLogoWhite-BlueBackground.svg",
+  },
 };
 
 export default function RootLayout({
@@ -23,7 +26,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en"  suppressHydrationWarning={true}>
+    <html lang="en" suppressHydrationWarning={true}>
       <body
         className={`${GeistSans.variable} ${GeistMono.variable} font-sans bg-background text-foreground antialiased`}
       >
@@ -34,7 +37,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <LanguageProvider>
-            <Suspense fallback={<Loading/>}>{children}</Suspense>
+            <Suspense fallback={<Loading />}>{children}</Suspense>
           </LanguageProvider>
           <Analytics />
         </ThemeProvider>
