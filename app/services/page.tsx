@@ -417,13 +417,13 @@ Our mission is to help your game reach a global audience and maximize its succes
             viewport={{ once: true, amount: 0.3 }}
             variants={fadeInUp}
           >
-            <h1 className="text-5xl md:text-7xl font-bold font-serif bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-6">
+            <h1 className="text-5xl  md:text-7xl font-bold font-sans bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-6">
               {content[language].title}
             </h1>
-            <p className="text-2xl md:text-3xl text-muted-foreground mb-6 font-medium text-balance">
+            <p className="text-2xl md:text-3xl  mb-6 font-medium text-balance text-white">
               {content[language].subtitle}
             </p>
-            <p className="text-lg text-muted-foreground/80 font-semibold mb-12 max-w-4xl mx-auto text-pretty leading-relaxed">
+            <p className="text-lg text-white font-semibold mb-12 max-w-4xl mx-auto  leading-relaxed">
               {content[language].description}
             </p>
           </motion.div>
@@ -586,7 +586,10 @@ Our mission is to help your game reach a global audience and maximize its succes
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <div dir="ltr" className="flex justify-center items-center gap-6 mt-6">
+            <div
+              dir="ltr"
+              className="flex justify-center items-center gap-6 mt-6"
+            >
               <div onClick={prevSlide}>
                 <CarouselPrevious className="relative translate-y-0 cursor-pointer bg-primary text-white hover:bg-primary/90 dark:bg-[#1C2443] dark:text-primary dark:hover:bg-[#1C2443] w-10 h-10 rounded-full shadow-lg transition" />
               </div>
