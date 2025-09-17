@@ -8,6 +8,7 @@ import "./globals.css";
 import ThemeToggle from "./../components/ui/themesToggle";
 import { ThemeProvider } from "@/components/theme-provider";
 import { LanguageProvider } from "@/context/LanguageContext";
+import { Loading } from "@/components/Loading";
 
 export const metadata: Metadata = {
   title: "Reqonic - Technology & IT Solutions",
@@ -22,10 +23,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" dir="ltr">
+    <html lang="en"  suppressHydrationWarning={true}>
       <body
-              suppressHydrationWarning={true}
-
         className={`${GeistSans.variable} ${GeistMono.variable} font-sans bg-background text-foreground antialiased`}
       >
         <ThemeProvider
@@ -35,8 +34,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <LanguageProvider>
-            <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
-            
+            <Suspense fallback={<Loading/>}>{children}</Suspense>
           </LanguageProvider>
           <Analytics />
         </ThemeProvider>

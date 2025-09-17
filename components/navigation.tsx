@@ -10,12 +10,25 @@ import { Menu, Globe } from "lucide-react";
 import { cn } from "@/lib/utils";
 import ThemeToggle from "./ui/themesToggle";
 import { useLanguage } from "@/context/LanguageContext";
+import { useTheme } from "next-themes";
 
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
   const { language, toggleLanguage } = useLanguage();
+  const { theme, systemTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
+  // Prevent hydration mismatch
+  useEffect(() => setMounted(true), []);
+
+  if (!mounted) {
+    return (
+      <div className="relative w-32 h-32 rounded-lg overflow-hidden bg-muted" />
+    );
+  }
+
+  const currentTheme = theme === "system" ? systemTheme : theme;
   const navItems = [
     { href: "/", label: language === "en" ? "Home" : "الرئيسية" },
     { href: "/services", label: language === "en" ? "Services" : "الخدمات" },
@@ -24,7 +37,11 @@ export function Navigation() {
   ];
 
   return (
-    <nav className="bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 w-full border-b border-border">
+    <nav
+      className="
+  sticky top-0 z-50 w-full border-b border-border overflow-hidden
+  bg-white/60 dark:bg-[#1C2443] backdrop-blur"
+    >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
@@ -33,22 +50,25 @@ export function Navigation() {
               href="/"
               className="flex items-center space-x-2 rtl:space-x-reverse"
             >
-              <div className="w-8 h-8  rounded-lg flex items-center justify-center">
-  <Image
-    src="/ReqonicLogoWhite-BlueBackground.svg"   
-    alt="Reqonic Logo"
-    width={100}
-    height={100}
-    className="object-cover"
-  />
-</div>
-              <span className="text-xl font-bold text-foreground">Reqonic</span>
+              <div className="relative w-32 h-32 rounded-lg overflow-hidden">
+                <Image
+                  src={
+                    currentTheme === "dark"
+                      ? "/ReqonicLogoWhite-BlueBackground.svg"
+                      : "/image.svg"
+                  }
+                  alt="Reqonic Logo"
+                  fill
+                  className="object-contain"
+                  priority
+                />
+              </div>
             </Link>
           </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-4 rtl:space-x-reverse rtl:ml-0 rtl:mr-10">
+            <div className="ml-10 flex items-baseline gap-5 rtl:space-x-reverse rtl:ml-0 rtl:mr-10">
               {navItems.map((item) => (
                 <Link
                   key={item.href}
@@ -67,7 +87,7 @@ export function Navigation() {
           </div>
 
           {/* Language Toggle & CTA */}
-          <div className="hidden md:flex items-center gap-1 space-x-4 rtl:space-x-reverse">
+          <div className="hidden md:flex items-center gap-3  rtl:space-x-reverse">
             <Button
               variant="ghost"
               size="sm"
@@ -77,11 +97,6 @@ export function Navigation() {
               <Globe className="h-4 w-4" />
               <span>{language === "en" ? "العربية" : "English"}</span>
             </Button>
-            {/* <Button size="sm" asChild>
-              <Link href="/contact">
-                {language === "en" ? "Get Started" : "ابدأ الآن"}
-              </Link>
-            </Button> */}
 
             <ThemeToggle />
           </div>
@@ -90,48 +105,53 @@ export function Navigation() {
           <div className="md:hidden">
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="sm">
-                  <Menu className="h-6 w-6" />
+                <Button variant="ghost" size="lg" className="p-2">
+                  <Menu className="h-10 w-10" />
                   <span className="sr-only">Open menu</span>
                 </Button>
               </SheetTrigger>
               <SheetContent
-                side={language === "ar" ? "left" : "right"}
-                className="w-[300px] sm:w-[400px]"
+                side={language === "ar" ? "right" : "left"}
+                className="w-[300px] sm:w-[400px] bg-white/90 dark:bg-[#1C2443] backdrop-blur"
               >
-                <div className="flex flex-col space-y-4 mt-8">
-                  <div className="flex items-center space-x-2 rtl:space-x-reverse mb-6">
-                    <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                      <span className="text-primary-foreground font-bold text-lg">
-                        R
-                      </span>
+                <div className="flex flex-col justify-start space-y-4 mt-4">
+                  <div className="flex items-center justify-center space-x-2 rtl:space-x-reverse mb-2">
+                    <div className="relative w-36 h-36 rounded-lg overflow-hidden">
+                      <Image
+                        src={
+                          currentTheme === "dark"
+                            ? "/ReqonicLogoWhite-BlueBackground.svg"
+                            : "/image.svg"
+                        }
+                        alt="Reqonic Logo"
+                        fill
+                        className="object-contain"
+                        priority
+                      />
                     </div>
-                    <span className="text-xl font-bold text-foreground">
-                      Reqonic
-                    </span>
                   </div>
-
-                  {navItems.map((item) => (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      className={cn(
-                        "flex items-center px-4 py-3 rounded-lg text-base font-medium transition-colors",
-                        pathname === item.href
-                          ? "text-primary bg-primary/10"
-                          : "text-muted-foreground hover:text-foreground hover:bg-accent"
-                      )}
-                      onClick={() => setIsOpen(false)}
-                    >
-                      {item.label}
-                    </Link>
-                  ))}
-
-                  <div className="flex flex-col space-y-3 pt-4 border-t border-border">
+                  <div className="flex flex-col space-y-4 px-2">
+                    {navItems.map((item) => (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        className={cn(
+                          "flex items-center px-4 py-3 rounded-lg text-base font-medium transition-colors",
+                          pathname === item.href
+                            ? "text-primary bg-primary/10"
+                            : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                        )}
+                        onClick={() => setIsOpen(false)}
+                      >
+                        {item.label}
+                      </Link>
+                    ))}
+                  </div>
+                  <div className="flex justify-between items-center px-2 pt-4 border-t border-border">
                     <Button
                       variant="ghost"
                       onClick={toggleLanguage}
-                      className="justify-start space-x-2 rtl:space-x-reverse"
+                      className="justify-start space-x-2 rtl:space-x-reverse cursor-pointer"
                     >
                       <Globe className="h-4 w-4" />
                       <span>{language === "en" ? "العربية" : "English"}</span>

@@ -1,8 +1,10 @@
 "use client";
 import { createContext, useContext, useEffect, useState } from "react";
 
+type Language = "en" | "ar";
+
 type LanguageContextType = {
-  language: string;
+  language: Language;
   toggleLanguage: () => void;
 };
 
@@ -12,15 +14,16 @@ const LanguageContext = createContext<LanguageContextType>({
 });
 
 export const LanguageProvider = ({ children }: { children: React.ReactNode }) => {
-  const [language, setLanguage] = useState("en");
+  // ✅ حدد النوع هنا
+  const [language, setLanguage] = useState<Language>("en");
 
   useEffect(() => {
-    const savedLang = localStorage.getItem("language") || "en";
+    const savedLang = (localStorage.getItem("language") as Language) || "en";
     setLanguage(savedLang);
   }, []);
 
   const toggleLanguage = () => {
-    const newLang = language === "en" ? "ar" : "en";
+    const newLang: Language = language === "en" ? "ar" : "en";
     setLanguage(newLang);
     localStorage.setItem("language", newLang);
   };

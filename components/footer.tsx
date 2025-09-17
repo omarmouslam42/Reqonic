@@ -1,26 +1,38 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { useLanguage } from "@/context/LanguageContext"
-import { Facebook, Twitter, Linkedin, Mail } from "lucide-react"
+import Link from "next/link";
+import { useLanguage } from "@/context/LanguageContext";
+import { Facebook, Twitter, Linkedin, Mail } from "lucide-react";
+import Image from "next/image";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
 export const Footer = () => {
-  const { language } = useLanguage()
+  const { language } = useLanguage();
+  const { theme, systemTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
+  // Prevent hydration mismatch
+  useEffect(() => setMounted(true), []);
+
+  if (!mounted) {
+    return (
+      <div className="relative w-32 h-32 rounded-lg overflow-hidden bg-muted" />
+    );
+  }
+
+  const currentTheme = theme === "system" ? systemTheme : theme;
   const content = {
     en: {
       description:
         "Professional technology and IT solutions for individuals and businesses worldwide.",
       company: "Company",
-      companyLinks: [  
-        {title:"About Us",link:"about"}
-        ,{title:"Services",link:"services"}
-        ,{title:"Contact US",link:"contact"}
-        
-        
-        
-            ],
-                  services: "Services",
+      companyLinks: [
+        { title: "About Us", link: "about" },
+        { title: "Services", link: "services" },
+        { title: "Contact US", link: "contact" },
+      ],
+      services: "Services",
       serviceLinks: ["Web Development", "App Development", "Cloud Solutions"],
       support: "Support",
       supportLinks: ["Help Center", "FAQs", "Contact Support"],
@@ -40,10 +52,10 @@ export const Footer = () => {
       description:
         "حلول تقنية ومعلوماتية احترافية للأفراد والشركات حول العالم.",
       company: "الشركة",
-      companyLinks:[
-        {title:"معلومات عنا" ,link :"about"},
-        {title:"الخدمات", link :"services"},
-        {title:"تواصل معنا",link:"contact"}
+      companyLinks: [
+        { title: "معلومات عنا", link: "about" },
+        { title: "الخدمات", link: "services" },
+        { title: "تواصل معنا", link: "contact" },
       ],
       services: "الخدمات",
       serviceLinks: ["تطوير الويب", "تطوير التطبيقات", "الحلول السحابية"],
@@ -61,37 +73,66 @@ export const Footer = () => {
         privacy: "سياسة الخصوصية",
       },
     },
-  } as const
+  } as const;
 
   return (
     <footer
-      className="bg-muted/20 border-t border-muted mt-20"
+      className={`
+    border-t border-muted mt-10 
+    bg-[#F8F8F8] 
+    dark:bg-[#1C2443]
+    text-gray-900 dark:text-gray-100
+  `}
       dir={language === "ar" ? "rtl" : "ltr"}
     >
-      <div className="max-w-7xl mx-auto px-6 lg:px-12 py-16 grid gap-12 lg:grid-cols-5">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 py-8 grid gap-12 lg:grid-cols-5">
         {/* Brand */}
         <div className="lg:col-span-2 space-y-4 text-center lg:text-left">
-          <Link href="/" className="flex items-center justify-center lg:justify-start gap-2">
-            <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-lg">R</span>
+          <Link
+            href="/"
+            className="flex items-center justify-center lg:justify-start gap-2"
+          >
+            <div className="relative w-40 h-40 rounded-lg overflow-hidden">
+              <Image
+                src={
+                  currentTheme === "dark"
+                    ? "/ReqonicLogoWhite-BlueBackground.svg"
+                    : "/image.svg"
+                }
+                alt="Reqonic Logo"
+                fill
+                className="object-contain "
+                priority
+              />
             </div>
-            <span className="text-2xl font-bold text-foreground">Reqonic</span>
           </Link>
-         <p className="text-muted-foreground max-w-md mx-auto lg:mx-0 text-left rtl:text-right">
-  {content[language].description}
-</p>
+          <p className="text-muted-foreground max-w-md mx-auto lg:mx-0 text-left rtl:text-right">
+            {content[language].description}
+          </p>
           {/* Social Icons */}
           <div className="flex justify-center lg:justify-start gap-4 mt-4">
-            <a href="#" className="p-2 rounded-full bg-primary/10 hover:bg-primary/20 transition">
+            <a
+              href="#"
+              className="p-2 rounded-full bg-primary/10 hover:bg-primary/20 transition"
+            >
               <Facebook className="w-5 h-5 text-primary" />
             </a>
-            <a href="#" className="p-2 rounded-full bg-primary/10 hover:bg-primary/20 transition">
+            <a
+              href="#"
+              className="p-2 rounded-full bg-primary/10 hover:bg-primary/20 transition"
+            >
               <Twitter className="w-5 h-5 text-primary" />
             </a>
-            <a href="#" className="p-2 rounded-full bg-primary/10 hover:bg-primary/20 transition">
+            <a
+              href="#"
+              className="p-2 rounded-full bg-primary/10 hover:bg-primary/20 transition"
+            >
               <Linkedin className="w-5 h-5 text-primary" />
             </a>
-            <a href="mailto:info@reqonic.com" className="p-2 rounded-full bg-primary/10 hover:bg-primary/20 transition">
+            <a
+              href="mailto:info@reqonic.com"
+              className="p-2 rounded-full bg-primary/10 hover:bg-primary/20 transition"
+            >
               <Mail className="w-5 h-5 text-primary" />
             </a>
           </div>
@@ -101,11 +142,16 @@ export const Footer = () => {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 lg:col-span-3">
           {/* Company */}
           <div>
-            <h4 className="font-semibold text-foreground">{content[language].company}</h4>
+            <h4 className="font-semibold text-foreground">
+              {content[language].company}
+            </h4>
             <ul className="mt-4 space-y-3 text-sm">
               {content[language].companyLinks.map((link, idx) => (
                 <li key={idx}>
-                  <a href={link.link} className="text-muted-foreground hover:text-primary transition">
+                  <a
+                    href={link.link}
+                    className="text-muted-foreground hover:text-primary transition"
+                  >
                     {link.title}
                   </a>
                 </li>
@@ -114,11 +160,16 @@ export const Footer = () => {
           </div>
           {/* Services */}
           <div>
-            <h4 className="font-semibold text-foreground">{content[language].services}</h4>
+            <h4 className="font-semibold text-foreground">
+              {content[language].services}
+            </h4>
             <ul className="mt-4 space-y-3 text-sm">
               {content[language].serviceLinks.map((link, idx) => (
                 <li key={idx}>
-                  <a href="#" className="text-muted-foreground hover:text-primary transition">
+                  <a
+                    href="#"
+                    className="text-muted-foreground hover:text-primary transition"
+                  >
                     {link}
                   </a>
                 </li>
@@ -127,11 +178,16 @@ export const Footer = () => {
           </div>
           {/* Support */}
           <div>
-            <h4 className="font-semibold text-foreground">{content[language].support}</h4>
+            <h4 className="font-semibold text-foreground">
+              {content[language].support}
+            </h4>
             <ul className="mt-4 space-y-3 text-sm">
               {content[language].supportLinks.map((link, idx) => (
                 <li key={idx}>
-                  <a href="#" className="text-muted-foreground hover:text-primary transition">
+                  <a
+                    href="#"
+                    className="text-muted-foreground hover:text-primary transition"
+                  >
                     {link}
                   </a>
                 </li>
@@ -140,11 +196,19 @@ export const Footer = () => {
           </div>
           {/* Contact */}
           <div>
-            <h4 className="font-semibold text-foreground">{content[language].contact}</h4>
+            <h4 className="font-semibold text-foreground">
+              {content[language].contact}
+            </h4>
             <ul className="mt-4 space-y-3 text-sm">
-              <li className="text-muted-foreground">{content[language].contactInfo.email}</li>
-              <li className="text-muted-foreground">{content[language].contactInfo.phone}</li>
-              <li className="text-muted-foreground">{content[language].contactInfo.address}</li>
+              <li className="text-muted-foreground">
+                {content[language].contactInfo.email}
+              </li>
+              <li className="text-muted-foreground">
+                {content[language].contactInfo.phone}
+              </li>
+              <li className="text-muted-foreground">
+                {content[language].contactInfo.address}
+              </li>
             </ul>
           </div>
         </div>
@@ -166,5 +230,5 @@ export const Footer = () => {
         </div>
       </div>
     </footer>
-  )
-}
+  );
+};

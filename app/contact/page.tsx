@@ -1,17 +1,17 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Navigation } from "@/components/navigation"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Footer } from "@/components/footer"
-import { MapPin, Phone, Mail, Send } from "lucide-react"
-import { useLanguage } from "@/context/LanguageContext"
-
+import { useState } from "react";
+import { Navigation } from "@/components/navigation";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Footer } from "@/components/footer";
+import { MapPin, Phone, Mail, Send } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
+import { motion } from "framer-motion";
 export default function ContactPage() {
-  const { language } = useLanguage()
+  const { language } = useLanguage();
 
   const content = {
     en: {
@@ -91,7 +91,7 @@ export default function ContactPage() {
       mapTitle: "موقعنا",
       mapSubtitle: "اعثر على مقرنا في منطقة الابتكار بدبي",
     },
-  } as const
+  } as const;
 
   const [form, setForm] = useState({
     firstName: "",
@@ -100,42 +100,52 @@ export default function ContactPage() {
     phone: "",
     subject: "",
     message: "",
-  })
+  });
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setForm({ ...form, [e.target.name]: e.target.value })
-  }
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
   // Build formatted email body + subject
   const buildMailTo = () => {
-    let body = `${content[language].formTitle}:\n\n`
+    let body = `${content[language].formTitle}:\n\n`;
 
     if (form.firstName || form.lastName) {
-      body += `Name: ${form.firstName} ${form.lastName}\n`
+      body += `Name: ${form.firstName} ${form.lastName}\n`;
     }
     if (form.email) {
-      body += `Email: ${form.email}\n`
+      body += `Email: ${form.email}\n`;
     }
     if (form.phone) {
-      body += `Phone: ${form.phone}\n`
+      body += `Phone: ${form.phone}\n`;
     }
     if (form.subject) {
-      body += `Subject: ${form.subject}\n`
+      body += `Subject: ${form.subject}\n`;
     }
     if (form.message) {
-      body += `\nMessage:\n${form.message}\n`
+      body += `\nMessage:\n${form.message}\n`;
     }
 
     const subject = form.subject
       ? `${content[language].formTitle} - ${form.subject}`
-      : content[language].formTitle
+      : content[language].formTitle;
 
     return `mailto:dev.mohamed.moorsy@gmail.com?subject=${encodeURIComponent(
       subject
-    )}&body=${encodeURIComponent(body)}`
-  }
+    )}&body=${encodeURIComponent(body)}`;
+  };
+
+  const fadeUp = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0 },
+  };
+
+  const fadeScale = {
+    hidden: { opacity: 0, scale: 0.95 },
+    visible: { opacity: 1, scale: 1 },
+  };
 
   return (
     <main
@@ -145,25 +155,42 @@ export default function ContactPage() {
       <Navigation />
 
       {/* Hero Section */}
-      <section className="relative bg-primary/5 py-24 text-center">
-        <div className="container mx-auto px-6 max-w-3xl">
-          <h1 className="text-4xl md:text-6xl font-extrabold font-serif leading-tight text-foreground">
+      <section
+        className="relative bg-cover bg-center bg-no-repeat bg-fixed py-24 text-center min-h-[400px]"
+        style={{ backgroundImage: "url('/pexels-fauxels-3183150.jpg')" }}
+      >
+        <div className="absolute inset-0 bg-black/40" />
+        <motion.div
+          className="relative container mx-auto px-6 max-w-3xl"
+          initial="hidden"
+          animate="visible"
+          variants={fadeUp}
+          transition={{ duration: 1 }}
+        >
+          <h1 className="text-4xl md:text-6xl font-extrabold font-serif leading-tight text-white">
             {content[language].heroTitle.split(" ").slice(0, -1).join(" ")}{" "}
             <span className="text-primary">
               {content[language].heroTitle.split(" ").slice(-1).join(" ")}
             </span>
           </h1>
-          <p className="mt-4 text-lg text-muted-foreground">
+          <p className="mt-4 text-lg text-gray-200">
             {content[language].heroSubtitle}
           </p>
-        </div>
+        </motion.div>
       </section>
 
       {/* Split Layout */}
       <section className="py-20">
         <div className="container mx-auto px-6 grid lg:grid-cols-2 gap-10">
           {/* Contact Info */}
-          <div className="bg-muted/40 rounded-xl p-10 flex flex-col justify-center space-y-8">
+          <motion.div
+            className="bg-muted/40 rounded-xl p-10 flex flex-col justify-start gap-2 space-y-8"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeUp}
+            transition={{ duration: 0.8 }}
+          >
             <h2 className="text-3xl font-bold">
               {content[language].contactTitle}
             </h2>
@@ -192,74 +219,92 @@ export default function ContactPage() {
                 </a>
               ))}
             </div>
-          </div>
+          </motion.div>
 
           {/* Form */}
-          <Card className="shadow-lg border-0">
-            <CardHeader>
-              <CardTitle className="text-2xl font-bold">
-                {content[language].formTitle}
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-5">
-              <div className="grid md:grid-cols-2 gap-4">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeUp}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            <Card className="shadow-lg border-0 dark:bg-[#1C2443]/50">
+              <CardHeader>
+                <CardTitle className="text-2xl font-bold">
+                  {content[language].formTitle}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-5">
+                <div className="grid md:grid-cols-2 gap-4">
+                  <Input
+                    name="firstName"
+                    placeholder={content[language].firstName}
+                    value={form.firstName}
+                    onChange={handleChange}
+                    required
+                  />
+                  <Input
+                    name="lastName"
+                    placeholder={content[language].lastName}
+                    value={form.lastName}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
                 <Input
-                  name="firstName"
-                  placeholder={content[language].firstName}
-                  value={form.firstName}
+                  name="email"
+                  type="email"
+                  placeholder={content[language].email}
+                  value={form.email}
                   onChange={handleChange}
                   required
                 />
                 <Input
-                  name="lastName"
-                  placeholder={content[language].lastName}
-                  value={form.lastName}
+                  name="phone"
+                  type="number"
+                  placeholder={content[language].phone}
+                  value={form.phone}
+                  onChange={handleChange}
+                />
+                <Input
+                  name="subject"
+                  placeholder={content[language].subject}
+                  value={form.subject}
                   onChange={handleChange}
                   required
                 />
-              </div>
-              <Input
-                name="email"
-                type="email"
-                placeholder={content[language].email}
-                value={form.email}
-                onChange={handleChange}
-                required
-              />
-              <Input
-                name="phone"
-                type="number"
-                placeholder={content[language].phone}
-                value={form.phone}
-                onChange={handleChange}
-              />
-              <Input
-                name="subject"
-                placeholder={content[language].subject}
-                value={form.subject}
-                onChange={handleChange}
-                required
-              />
-              <Textarea
-                name="message"
-                placeholder={content[language].message}
-                rows={5}
-                value={form.message}
-                onChange={handleChange}
-                required
-              />
-              <Button asChild className="w-full h-12 text-lg font-medium">
-                <a href={buildMailTo()}>
-                  {content[language].send} <Send className="ml-2 h-5 w-5" />
-                </a>
-              </Button>
-            </CardContent>
-          </Card>
+                <Textarea
+                  name="message"
+                  placeholder={content[language].message}
+                  rows={5}
+                  value={form.message}
+                  onChange={handleChange}
+                  required
+                />
+                <Button
+                  asChild
+                  className="w-full h-12 text-lg font-medium bg-[#1C2443] text-white"
+                >
+                  <a href={buildMailTo()}>
+                    {content[language].send} <Send className="ml-2 h-5 w-5" />
+                  </a>
+                </Button>
+              </CardContent>
+            </Card>
+          </motion.div>
         </div>
       </section>
 
       {/* Map */}
-      <section className="py-20 bg-muted/30">
+      <motion.section
+        className="py-20 bg-muted/30"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={fadeUp}
+        transition={{ duration: 1 }}
+      >
         <div className="container mx-auto px-6 text-center space-y-6">
           <h2 className="text-3xl md:text-4xl font-bold">
             {content[language].mapTitle}
@@ -278,9 +323,9 @@ export default function ContactPage() {
             ></iframe>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       <Footer />
     </main>
-  )
+  );
 }
