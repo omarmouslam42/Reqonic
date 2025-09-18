@@ -9,6 +9,8 @@ import ThemeToggle from "./../components/ui/themesToggle";
 import { ThemeProvider } from "@/components/theme-provider";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { Loading } from "@/components/Loading";
+import { Navigation } from "@/components/navigation";
+import { Footer } from "@/components/footer";
 
 export const metadata: Metadata = {
   title: "Reqonic - Technology & IT Solutions",
@@ -27,7 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning={true}>
-      <body
+      <body 
         className={`${GeistSans.variable} ${GeistMono.variable} font-sans bg-background text-foreground antialiased`}
       >
         <ThemeProvider
@@ -37,7 +39,13 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <LanguageProvider>
-            <Suspense fallback={<Loading />}>{children}</Suspense>
+            <Suspense fallback={<Loading />}>
+              {/* navbar  */}
+              <Navigation />
+              {children}
+              {/* footer  */}
+              <Footer/>
+            </Suspense>
           </LanguageProvider>
           <Analytics />
         </ThemeProvider>

@@ -257,7 +257,7 @@ export default function AboutPage() {
   };
   return (
     <main className="min-h-screen" dir={language === "ar" ? "rtl" : "ltr"}>
-      <Navigation />
+      {/* <Navigation /> */}
 
       {/* Hero Section */}
       <section
@@ -265,7 +265,7 @@ export default function AboutPage() {
         style={{ backgroundImage: "url('/project-banking.png')" }}
       >
         <div className="absolute inset-0 bg-black/50" /> {/* Overlay */}
-        <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 font-serif">
           <motion.div
             className="text-center space-y-6 max-w-4xl mx-auto"
             initial="hidden"
@@ -273,7 +273,7 @@ export default function AboutPage() {
             variants={fadeUp}
             transition={{ duration: 1 }}
           >
-            <h1 className="text-5xl lg:text-7xl font-serif font-bold text-white leading-tight text-balance">
+            <h1 className="text-5xl lg:text-7xl  font-bold text-white leading-tight text-balance">
               {content[language].heroTitle}
             </h1>
             <p className="text-xl text-gray-200 leading-relaxed text-pretty">
@@ -409,7 +409,7 @@ export default function AboutPage() {
         </div>
       </motion.section>
 
-      <Footer />
+      {/* <Footer /> */}
     </main>
   );
 }

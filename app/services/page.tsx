@@ -392,7 +392,7 @@ Our mission is to help your game reach a global audience and maximize its succes
   };
   return (
     <div className="min-h-screen" dir={language === "ar" ? "rtl" : "ltr"}>
-      <Navigation />
+      {/* <Navigation /> */}
 
       {/* Hero Section */}
       <motion.section
@@ -657,7 +657,7 @@ Our mission is to help your game reach a global audience and maximize its succes
         </div>
       </motion.section>
 
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

@@ -78,7 +78,7 @@ export const Footer = () => {
   return (
     <footer
       className={`
-    border-t border-muted mt-10 
+    border-t border-muted 
     bg-[#F8F8F8] 
     dark:bg-[#1C2443]
     text-gray-900 dark:text-gray-100
@@ -87,21 +87,20 @@ export const Footer = () => {
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-12 py-8 grid gap-12 lg:grid-cols-5">
         {/* Brand */}
-        <div className="lg:col-span-2 space-y-4 text-center lg:text-left">
+        <div className="lg:col-span-2 space-y-4 text-center lg:text-left -mt-14">
           <Link
             href="/"
-            className="flex items-center justify-center lg:justify-start gap-2"
-          >
-            <div className="relative w-40 h-40 rounded-lg overflow-hidden">
+            className="flex items-center justify-center lg:justify-start gap-2">
+            <div className="relative w-40 h-40 rounded-lg">
               <Image
                 src={
                   currentTheme === "dark"
-                    ? "/ReqonicLogoWhite-BlueBackground.svg"
-                    : "/image.svg"
+                    ? "/ReqonicLogoWhite-TransparentBG.svg"
+                    : "/ReqonicLogoBlack-TransparentBG.svg"
                 }
                 alt="Reqonic Logo"
                 fill
-                className="object-contain "
+                className="object-contain"
                 priority
               />
             </div>

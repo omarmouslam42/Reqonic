@@ -5,13 +5,13 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Menu, Globe } from "lucide-react";
 import { cn } from "@/lib/utils";
 import ThemeToggle from "./ui/themesToggle";
 import { useLanguage } from "@/context/LanguageContext";
 import { useTheme } from "next-themes";
-
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
@@ -31,16 +31,17 @@ export function Navigation() {
   const currentTheme = theme === "system" ? systemTheme : theme;
   const navItems = [
     { href: "/", label: language === "en" ? "Home" : "الرئيسية" },
-    { href: "/services", label: language === "en" ? "Services" : "الخدمات" },
     { href: "/about", label: language === "en" ? "About Us" : "من نحن" },
+    { href: "/services", label: language === "en" ? "Services" : "الخدمات" },
     { href: "/contact", label: language === "en" ? "Contact" : "اتصل بنا" },
   ];
 
   return (
     <nav
+      dir={language === "ar" ? "rtl" : "ltr"}
       className="
   sticky top-0 z-50 w-full border-b border-border overflow-hidden
-  bg-white/60 dark:bg-[#1C2443] backdrop-blur"
+  bg-white/50 dark:bg-[#1C2443] backdrop-blur"
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
@@ -50,16 +51,16 @@ export function Navigation() {
               href="/"
               className="flex items-center space-x-2 rtl:space-x-reverse"
             >
-              <div className="relative w-32 h-32 rounded-lg overflow-hidden">
+              <div className="relative w-36 h-36 rounded-lg overflow-hidden">
                 <Image
                   src={
                     currentTheme === "dark"
-                      ? "/ReqonicLogoWhite-BlueBackground.svg"
-                      : "/image.svg"
+                      ? "/ReqonicLogoWhite-TransparentBG.svg"
+                      : "/ReqonicLogoBlack-TransparentBG.svg"
                   }
                   alt="Reqonic Logo"
                   fill
-                  className="object-contain"
+                  className="object-contain "
                   priority
                 />
               </div>
@@ -114,14 +115,17 @@ export function Navigation() {
                 side={language === "ar" ? "right" : "left"}
                 className="w-[300px] sm:w-[400px] bg-white/90 dark:bg-[#1C2443] backdrop-blur"
               >
+                <VisuallyHidden>
+                  <SheetTitle>Hidden Title for Accessibility</SheetTitle>
+                </VisuallyHidden>
                 <div className="flex flex-col justify-start space-y-4 mt-4">
                   <div className="flex items-center justify-center space-x-2 rtl:space-x-reverse mb-2">
-                    <div className="relative w-36 h-36 rounded-lg overflow-hidden">
+                    <div className="relative w-44 h-44 rounded-lg overflow-hidden">
                       <Image
                         src={
                           currentTheme === "dark"
                             ? "/ReqonicLogoWhite-BlueBackground.svg"
-                            : "/image.svg"
+                            : "/ReqonicLogoBlack-TransparentBG.svg"
                         }
                         alt="Reqonic Logo"
                         fill

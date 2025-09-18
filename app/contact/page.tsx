@@ -109,33 +109,33 @@ export default function ContactPage() {
   };
 
   // Build formatted email body + subject
-  const buildMailTo = () => {
-    let body = `${content[language].formTitle}:\n\n`;
+  // const buildMailTo = () => {
+  //   let body = `${content[language].formTitle}:\n\n`;
 
-    if (form.firstName || form.lastName) {
-      body += `Name: ${form.firstName} ${form.lastName}\n`;
-    }
-    if (form.email) {
-      body += `Email: ${form.email}\n`;
-    }
-    if (form.phone) {
-      body += `Phone: ${form.phone}\n`;
-    }
-    if (form.subject) {
-      body += `Subject: ${form.subject}\n`;
-    }
-    if (form.message) {
-      body += `\nMessage:\n${form.message}\n`;
-    }
+  //   if (form.firstName || form.lastName) {
+  //     body += `Name: ${form.firstName} ${form.lastName}\n`;
+  //   }
+  //   if (form.email) {
+  //     body += `Email: ${form.email}\n`;
+  //   }
+  //   if (form.phone) {
+  //     body += `Phone: ${form.phone}\n`;
+  //   }
+  //   if (form.subject) {
+  //     body += `Subject: ${form.subject}\n`;
+  //   }
+  //   if (form.message) {
+  //     body += `\nMessage:\n${form.message}\n`;
+  //   }
 
-    const subject = form.subject
-      ? `${content[language].formTitle} - ${form.subject}`
-      : content[language].formTitle;
+  //   const subject = form.subject
+  //     ? `${content[language].formTitle} - ${form.subject}`
+  //     : content[language].formTitle;
 
-    return `mailto:dev.mohamed.moorsy@gmail.com?subject=${encodeURIComponent(
-      subject
-    )}&body=${encodeURIComponent(body)}`;
-  };
+  //   return `mailto:dev.mohamed.moorsy@gmail.com?subject=${encodeURIComponent(
+  //     subject
+  //   )}&body=${encodeURIComponent(body)}`;
+  // };
 
   const fadeUp = {
     hidden: { opacity: 0, y: 30 },
@@ -152,7 +152,7 @@ export default function ContactPage() {
       className="min-h-screen flex flex-col bg-background"
       dir={language === "ar" ? "rtl" : "ltr"}
     >
-      <Navigation />
+      {/* <Navigation /> */}
 
       {/* Hero Section */}
       <section
@@ -283,12 +283,9 @@ export default function ContactPage() {
                   required
                 />
                 <Button
-                  asChild
-                  className="w-full h-12 text-lg font-medium bg-[#1C2443] text-white"
+                  className="w-full cursor-pointer h-12 text-lg font-medium bg-[#1C2443] text-white"
                 >
-                  <a href={buildMailTo()}>
-                    {content[language].send} <Send className="ml-2 h-5 w-5" />
-                  </a>
+                  {content[language].send} <Send className="ml-2 h-5 w-5" />
                 </Button>
               </CardContent>
             </Card>
@@ -325,7 +322,7 @@ export default function ContactPage() {
         </div>
       </motion.section>
 
-      <Footer />
+      {/* <Footer /> */}
     </main>
   );
 }
