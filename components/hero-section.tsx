@@ -92,7 +92,14 @@ export function HeroSection() {
   return (
     <section
       dir={language === "ar" ? "rtl" : "ltr"}
-      className="relative py-12 flex items-center bg-cover bg-center"
+      className="relative 
+    min-h-[60vh]       
+    md:min-h-[75vh]     
+    lg:h-screen         
+    py-8 md:py-16 lg:py-24   
+    flex items-center justify-center 
+    bg-cover bg-center bg-no-repeat
+   "
       style={{
         backgroundImage: `url('abstract-techno-background-with-connecting-lines.jpg')`,
       }}
@@ -190,9 +197,15 @@ export function HeroSection() {
                   {idx === 0 && (
                     <Database className="h-8 w-8 text-[#4E86FF] m-auto lg:mx-0" />
                   )}
-                  {idx === 1 && <Cloud className="h-8 w-8 text-[#4E86FF] m-auto lg:mx-0" />}
-                  {idx === 2 && <Cpu className="h-8 w-8 text-[#4E86FF] m-auto lg:mx-0" />}
-                  {idx === 3 && <Shield className="h-8 w-8 text-[#4E86FF] m-auto lg:mx-0" />}
+                  {idx === 1 && (
+                    <Cloud className="h-8 w-8 text-[#4E86FF] m-auto lg:mx-0" />
+                  )}
+                  {idx === 2 && (
+                    <Cpu className="h-8 w-8 text-[#4E86FF] m-auto lg:mx-0" />
+                  )}
+                  {idx === 3 && (
+                    <Shield className="h-8 w-8 text-[#4E86FF] m-auto lg:mx-0" />
+                  )}
                   <h3 className="font-semibold">{card.title}</h3>
                   <p className="text-sm text-gray-200">{card.desc}</p>
                 </CardContent>
